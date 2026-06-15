@@ -1,0 +1,6 @@
+# Local session / tooling state — never publish
+.remember/
+.verify-shots/
+
+# macOS
+.DS_Store
