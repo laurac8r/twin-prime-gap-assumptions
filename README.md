@@ -62,4 +62,5 @@ The page passes a Lighthouse accessibility audit at 100/100: semantic landmarks,
 WCAG-AA+ contrast in both light and dark modes, full keyboard focus rings, a
 reduced-motion guard, and a print stylesheet.
 
-Content is free to share and adapt with attribution.
+© 2026 Laura Kaminskiy. Licensed under [CC BY 4.0](LICENSE) — free to share
+and adapt, with attribution.
