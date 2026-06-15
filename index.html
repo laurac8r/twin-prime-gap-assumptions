@@ -1,0 +1,315 @@
+<!doctype html>
+<!-- Generated from: "Explore assumptions taking the twin-prime bounded gap from 246 to 6; which are easier vs harder to validate" -->
+<!-- Input: explainer/ranking; layout: ladder table + tiered validability hierarchy + comparison cards + parity-wall aside -->
+<!-- Anchors: the 246->12->6 ladder (EH + GEH are the only assumptions); validability hierarchy (5 tiers, easiest->hardest); the GEH paradox (harder as conjecture, easier in instances); the parity wall at 6 -->
+<html lang="en" dir="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="data:," />
+    <title>From 246 to 6 — Twin-Prime Gap Assumptions</title>
+    <style>
+      :root {
+        --bg: #0f1419;
+        --fg: #e6edf3;
+        --muted: #9fb0c3;
+        --card: #1a2230;
+        --soft: #141c28;
+        --accent: #f0b860;
+        --link: #79c0ff;
+        --ring: #79c0ff;
+        --border: #2a3645;
+        /* tier accents — decorative, always paired with rank + status text */
+        --t1: #6cc59a;
+        --t2: #5fb8c9;
+        --t3: #79a8ff;
+        --t4: #f0b860;
+        --t5: #f08a7a;
+        --radius: 14px;
+        --pad: clamp(16px, 3vw, 30px);
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f7f9fb;
+          --fg: #1c2530;
+          --muted: #4a5868;
+          --card: #ffffff;
+          --soft: #eef2f6;
+          --accent: #8a5200;
+          --link: #0a58ca;
+          --ring: #0a58ca;
+          --border: #d7dee6;
+          --t1: #2f8f63;
+          --t2: #2a7e8f;
+          --t3: #3a6fd0;
+          --t4: #8a5200;
+          --t5: #c0432e;
+        }
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      }
+      header.site, footer.site, main {
+        max-width: 78ch;
+        margin: 0 auto;
+        padding: var(--pad);
+      }
+      header.site { padding-bottom: 0; }
+      h1 {
+        font-size: clamp(1.8rem, 4.5vw, 2.7rem);
+        line-height: 1.12;
+        margin: 0 0 0.3em;
+      }
+      h2 {
+        font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+        margin: 2em 0 0.5em;
+        color: var(--accent);
+      }
+      h3 { font-size: 1.05rem; margin: 0; }
+      p { margin: 0.55em 0; }
+      .lede { color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.12rem); max-width: 62ch; }
+      .muted { color: var(--muted); }
+      strong { font-weight: 700; }
+      a { color: var(--link); }
+      sub, sup { line-height: 0; }
+      code { overflow-wrap: anywhere; word-break: break-word; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+      :is(a, button, input, select, textarea, summary, [tabindex], [contenteditable]):focus-visible {
+        outline: 3px solid var(--ring);
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
+
+      /* ---- ladder table ---- */
+      .table-wrap { overflow-x: auto; margin: 1rem 0; border-radius: var(--radius); border: 1px solid var(--border); }
+      table { border-collapse: collapse; width: 100%; min-width: 0; }
+      caption { text-align: left; color: var(--muted); font-size: 0.92rem; padding: 0.6rem 0.9rem; }
+      th, td { text-align: left; padding: 0.7rem 0.9rem; border-top: 1px solid var(--border); vertical-align: top; }
+      thead th { background: var(--soft); border-top: 0; font-size: 0.82rem; letter-spacing: 0.03em; text-transform: uppercase; color: var(--muted); }
+      tbody th { font-weight: 700; white-space: nowrap; }
+      .gap { font-size: 1.5rem; font-weight: 800; color: var(--accent); }
+      .gap.blocked { color: var(--t5); }
+
+      /* ---- status chips (color + glyph + text = triple-redundant) ---- */
+      .chip {
+        display: inline-flex; align-items: center; gap: 0.35em;
+        font-size: 0.78rem; font-weight: 700; white-space: nowrap;
+        padding: 0.18em 0.6em; border-radius: 999px;
+        border: 1.5px solid var(--border); color: var(--fg); background: var(--soft);
+      }
+      .chip .ic { font-size: 0.95em; }
+      .chip.done { border-color: var(--t1); } .chip.done .ic { color: var(--t1); }
+      .chip.partial { border-color: var(--t2); } .chip.partial .ic { color: var(--t2); }
+      .chip.open { border-color: var(--t4); } .chip.open .ic { color: var(--t4); }
+      .chip.nogo { border-color: var(--t5); } .chip.nogo .ic { color: var(--t5); }
+
+      /* ---- validability tiers ---- */
+      ol.tiers { list-style: none; margin: 1rem 0; padding: 0; display: grid; gap: 0.85rem; }
+      .tier {
+        display: flex; gap: 0.9rem; align-items: flex-start;
+        background: var(--card); border: 1px solid var(--border);
+        border-left: 5px solid var(--tier); border-radius: var(--radius);
+        padding: 1rem 1.1rem; min-width: 0;
+      }
+      .rank {
+        flex: 0 0 auto; width: 2.1rem; height: 2.1rem; border-radius: 50%;
+        display: grid; place-items: center; font-weight: 800; font-size: 1rem;
+        color: var(--fg); background: var(--soft); border: 2px solid var(--tier);
+      }
+      .tier-body { min-width: 0; }
+      .tier-head { display: flex; flex-wrap: wrap; gap: 0.5rem 0.8rem; align-items: center; margin-bottom: 0.25rem; }
+      .tier-body p { margin: 0.3em 0 0; }
+
+      /* ---- comparison + aside ---- */
+      .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); margin: 1rem 0; }
+      .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; min-width: 0; }
+      .card h3 { color: var(--accent); margin-bottom: 0.3em; }
+      .resolve { color: var(--muted); font-style: italic; margin-top: 0.6rem; }
+      aside.note {
+        background: var(--card); border: 1px solid var(--border);
+        border-left: 5px solid var(--t5); border-radius: var(--radius);
+        padding: 1rem 1.2rem; margin: 1rem 0;
+      }
+      aside.note h3 { color: var(--accent); margin-bottom: 0.3em; }
+      footer.site { color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 1rem; }
+      footer.site a { color: var(--link); }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+      @media print {
+        :root {
+          --bg: #fff; --fg: #000; --card: #fff; --soft: #f2f2f2; --muted: #444;
+          --border: #999; --accent: #6a3d00; --link: #003a80;
+          --t1: #1c6b45; --t2: #1b5f6b; --t3: #244a8a; --t4: #6a3d00; --t5: #8f2f1f;
+        }
+        .grid { grid-template-columns: 1fr !important; }
+        main, header.site, footer.site { max-width: 100% !important; padding: 1em !important; }
+        .tier, .card, aside.note { break-inside: avoid; }
+        a::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #444; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- header/footer are siblings of main so they keep banner/contentinfo roles -->
+    <header class="site">
+      <h1>From 246 to 6 — and Why It Stops There</h1>
+      <p class="lede">
+        The Maynard&ndash;Tao / Polymath8 bounded-gaps program pushes the twin-prime gap bound
+        down a short ladder. Strip away the rigorous machinery and only <strong>two</strong>
+        conjectural assumptions are actually doing the work &mdash; and they are the same
+        conjecture at two strengths. Here is what each rung assumes, and how validatable each
+        assumption is.
+      </p>
+    </header>
+
+    <main>
+      <section aria-labelledby="ladder">
+        <h2 id="ladder">The ladder &mdash; what each rung assumes</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>
+              H<sub>1</sub> = lim inf (p<sub>n+1</sub> &minus; p<sub>n</sub>). Everything else &mdash;
+              the multidimensional sieve, admissible-tuple search, the M<sub>k</sub> optimization,
+              the &epsilon;-enlargement &mdash; is rigorous and unconditional.
+            </caption>
+            <thead>
+              <tr><th scope="col">Bound on H<sub>1</sub></th><th scope="col">Rests on</th><th scope="col">Status of that input</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"><span class="gap">&le; 246</span></th>
+                <td>Bombieri&ndash;Vinogradov theorem only (level &theta; = &frac12;)</td>
+                <td><span class="chip done"><span class="ic" aria-hidden="true">&#10003;</span> Proven (1965)</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="gap">&le; 12</span></th>
+                <td>Elliott&ndash;Halberstam conjecture (EH): primes at level &theta; &rarr; 1</td>
+                <td><span class="chip open"><span class="ic" aria-hidden="true">&#9711;</span> Open</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="gap">&le; 6</span></th>
+                <td>Generalized EH (GEH): same for convolutions &alpha;&lowast;&beta;</td>
+                <td><span class="chip open"><span class="ic" aria-hidden="true">&#9711;</span> Open &mdash; strictly stronger than EH</span></td>
+              </tr>
+              <tr>
+                <th scope="row"><span class="gap blocked">2</span></th>
+                <td>No sieve method reaches it (would be actual twin primes)</td>
+                <td><span class="chip nogo"><span class="ic" aria-hidden="true">&#9651;</span> Blocked by parity</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted">
+          <strong>How the rungs move:</strong> 246 uses only Bombieri&ndash;Vinogradov.
+          EH lowers the M<sub>k</sub> &gt; 2/&theta; threshold to&nbsp;2, met at k&nbsp;=&nbsp;5
+          (tuple {0,&nbsp;2,&nbsp;6,&nbsp;8,&nbsp;12}, diameter&nbsp;12). The baseline M<sub>3</sub>&nbsp;&asymp;&nbsp;1.35
+          and even M<sub>4</sub>&nbsp;=&nbsp;(4/3)log&nbsp;4&nbsp;&asymp;&nbsp;1.85 fall short of&nbsp;2, so GEH is
+          needed to license the &epsilon;-enlarged sieve that pushes M<sub>3</sub> past&nbsp;2 &mdash;
+          giving tuple {0,&nbsp;2,&nbsp;6}, diameter&nbsp;6.
+        </p>
+      </section>
+
+      <section aria-labelledby="validability">
+        <h2 id="validability">Easier vs harder to validate</h2>
+        <p>Ranked from already-done to needs-new-mathematics:</p>
+        <ol class="tiers">
+          <li class="tier" style="--tier: var(--t1)">
+            <span class="rank" aria-hidden="true">1</span>
+            <div class="tier-body">
+              <div class="tier-head">
+                <h3>Sieve machinery + Bombieri&ndash;Vinogradov</h3>
+                <span class="chip done"><span class="ic" aria-hidden="true">&#10003;</span> Proven</span>
+              </div>
+              <p>Admissible-tuple search and the M<sub>k</sub> optimization are finite, computer-verified. Bombieri&ndash;Vinogradov gives level &theta;&nbsp;=&nbsp;&frac12; (theorem since 1965). <strong>This tier alone yields 246.</strong></p>
+            </div>
+          </li>
+          <li class="tier" style="--tier: var(--t2)">
+            <span class="rank" aria-hidden="true">2</span>
+            <div class="tier-body">
+              <div class="tier-head">
+                <h3>Beyond &frac12; for smooth moduli &mdash; evidence for EH</h3>
+                <span class="chip partial"><span class="ic" aria-hidden="true">&#9680;</span> Partial</span>
+              </div>
+              <p>Zhang's &theta;&nbsp;=&nbsp;&frac12;&nbsp;+&nbsp;1/584, refined by Polymath8a to &frac12;&nbsp;+&nbsp;7/300 &mdash; proven, but only for <strong>smooth squarefree</strong> moduli, via Deligne's Weil-conjecture bounds plus Kloosterman / Birch&ndash;Bombieri sums. Deep, but real.</p>
+            </div>
+          </li>
+          <li class="tier" style="--tier: var(--t3)">
+            <span class="rank" aria-hidden="true">3</span>
+            <div class="tier-body">
+              <div class="tier-head">
+                <h3>Beyond &frac12; for convolutions &mdash; evidence for GEH</h3>
+                <span class="chip partial"><span class="ic" aria-hidden="true">&#9680;</span> Partial</span>
+              </div>
+              <p>Bombieri&ndash;Friedlander&ndash;Iwaniec and Fouvry&ndash;Iwaniec proved equidistribution of convolutions &alpha;&lowast;&beta; past &frac12; (well-factorable level x<sup>4/7&minus;&epsilon;</sup>, triple x<sup>3/5</sup>). Accessible precisely because convolutions are <strong>bilinear (Type&nbsp;II)</strong> &mdash; the structure current methods can exploit.</p>
+            </div>
+          </li>
+          <li class="tier" style="--tier: var(--t4)">
+            <span class="rank" aria-hidden="true">4</span>
+            <div class="tier-body">
+              <div class="tier-head">
+                <h3>Full EH and GEH</h3>
+                <span class="chip open"><span class="ic" aria-hidden="true">&#9711;</span> Open</span>
+              </div>
+              <p>Any fixed &theta;&nbsp;&gt;&nbsp;&frac12; for the primes over <strong>all</strong> moduli (EH), and the strictly stronger GEH. Hard but well-posed targets &mdash; no technique reaches a single &theta;&nbsp;&gt;&nbsp;&frac12; uniformly over general moduli.</p>
+            </div>
+          </li>
+          <li class="tier" style="--tier: var(--t5)">
+            <span class="rank" aria-hidden="true">5</span>
+            <div class="tier-body">
+              <div class="tier-head">
+                <h3>Below 6, toward 2</h3>
+                <span class="chip nogo"><span class="ic" aria-hidden="true">&#9651;</span> No-go for sieves</span>
+              </div>
+              <p><strong>Not an equidistribution assumption at all.</strong> Selberg's parity obstruction caps every sieve method at&nbsp;6 &mdash; even full GEH gives exactly&nbsp;6. Reaching gap&nbsp;2 needs genuinely new, parity-breaking mathematics.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="paradox">
+        <h2 id="paradox">The GEH paradox</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>Harder as a full conjecture</h3>
+            <p>GEH&nbsp;&rArr;&nbsp;EH (the von Mangoldt function decomposes into convolutions), so GEH is <strong>strictly stronger</strong>. The rung that buys 12&nbsp;&rarr;&nbsp;6 rests on the heavier hypothesis.</p>
+          </div>
+          <div class="card">
+            <h3>Easier in the instances that matter</h3>
+            <p>The only beyond-&frac12; results we actually have live on the convolution (GEH-flavored) side, because Type&nbsp;II / bilinear structure is what the dispersion method digests. Primes-via-EH lack it at the needed level &mdash; and collide with parity.</p>
+          </div>
+        </div>
+        <p class="resolve">Both are true: they describe different objects &mdash; a uniform, all-moduli, all-convolutions conjecture versus particular well-factorable instances.</p>
+      </section>
+
+      <section aria-labelledby="parity">
+        <h2 id="parity">Why it stops at 6</h2>
+        <aside class="note" role="note" aria-labelledby="parity-h">
+          <h3 id="parity-h">The parity wall</h3>
+          <p>Sieves cannot tell an <strong>even</strong> from an <strong>odd</strong> number of prime factors, so they cannot isolate primes (one factor) from products of two primes. Polymath8b adapts Selberg's parity argument to show that 6 is the best any purely sieve-theoretic method can do &mdash; even on GEH.</p>
+          <p class="muted">Two caveats: this optimality is <em>heuristic</em> (it rests on the conjectural M&ouml;bius randomness law), and it forbids the sieve <em>approach</em> &mdash; not the existence of twin primes themselves.</p>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site">
+      <p>
+        Sources: Maynard, <em>Small gaps between primes</em> (Annals 2015,
+        <a href="https://arxiv.org/abs/1311.4600">arXiv:1311.4600</a>);
+        Polymath8b (<a href="https://arxiv.org/abs/1407.4897">arXiv:1407.4897</a>);
+        Polymath8a (<a href="https://arxiv.org/abs/1402.0811">arXiv:1402.0811</a>);
+        Zhang, <em>Bounded gaps between primes</em> (Annals 2014);
+        Polymath retrospective (<a href="https://arxiv.org/abs/1409.8361">arXiv:1409.8361</a>);
+        Granville's survey; Tao's blog and Bombieri-asymptotic-sieve notes.
+      </p>
+    </footer>
+  </body>
+</html>
